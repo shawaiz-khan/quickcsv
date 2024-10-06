@@ -1,8 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Instagram } from 'lucide-react';
 
 export default function App() {
   const [item, setItem] = useState('');
   const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    const storedItems = localStorage.getItem('items');
+    if (storedItems) {
+      setItems(JSON.parse(storedItems));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('items', JSON.stringify(items));
+  }, [items]);
 
   const handleChange = (e) => {
     setItem(e.target.value);
@@ -31,7 +43,6 @@ export default function App() {
     const csvContent = items.map(item => `"${item}"`).join("\n");
     const blob = new Blob([csvContent], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
-    console.log(url)
     const a = document.createElement('a');
     a.setAttribute('href', url);
     a.setAttribute('download', 'items.csv');
@@ -42,19 +53,32 @@ export default function App() {
     window.open("https://www.instagram.com/shawaizkhan.dev/", "_blank");
   };
 
+  const handleClearList = () => {
+    setItems([]);
+  };
+
   return (
-    <main className="w-96 h-fit bg-neutral-100 px-3 py-5 flex flex-col shadow-md items-start justify-center gap-3">
-      <div className="w-full flex gap-3">
+    <main className="w-96 h-fit bg-white p-5 flex flex-col">
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-lg font-semibold">QuickCSV</h1>
+        <div
+          className="cursor-pointer w-full text-purple-500 ml-3"
+          onClick={handleFollow}
+        >
+          <Instagram />
+        </div>
+      </div>
+      <div className="flex gap-2">
         <input
-          className="border border-gray-900 rounded-md px-3 py-1 w-full focus:border-purple-600 focus:outline-none"
+          className="flex-1 border border-gray-300 rounded-md px-3 py-2 focus:border-purple-500 focus:outline-none"
           type="text"
-          placeholder="add item"
+          placeholder="Add item"
           value={item}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
         />
         <button
-          className="bg-purple-500 w-1/2 text-neutral-100 hover:bg-purple-600 border border-purple-500 rounded-md px-3 py-1 focus:border-purple-600 focus:outline-none"
+          className="bg-purple-500 text-white hover:bg-purple-600 rounded-md px-3 py-2"
           type="submit"
           onClick={handleSubmit}
         >
@@ -62,13 +86,13 @@ export default function App() {
         </button>
       </div>
       {items.length > 0 && (
-        <div className="w-full">
-          <ul className="mt-3 w-full overflow-y-auto max-h-72">
+        <div className="mt-4">
+          <ul className="w-full max-h-60 overflow-y-auto border border-gray-300 rounded-md">
             {items.map((i, index) => (
-              <li key={index} className="border-b py-1 flex justify-between items-center">
-                {i}
+              <li key={index} className="border-b py-2 px-3 flex justify-between items-center hover:bg-gray-100">
+                <span>{i}</span>
                 <button
-                  className="bg-red-500 hover:bg-red-600 px-3 text-neutral-100 rounded-md"
+                  className="bg-red-500 hover:bg-red-600 text-white rounded-md px-2 py-1"
                   onClick={() => handleClear(index)}
                 >
                   Clear
@@ -76,18 +100,18 @@ export default function App() {
               </li>
             ))}
           </ul>
-          <div className="flex gap-3">
+          <div className="flex gap-1 mt-3">
             <button
-              className="mt-3 bg-purple-500 hover:bg-purple-600 w-full py-2 rounded-md text-neutral-100"
+              className="mt-3 bg-purple-500 hover:bg-purple-600 w-full py-2 rounded-md text-white"
               onClick={handleDownloadCSV}
             >
               Download CSV
             </button>
             <button
-              className="mt-3 bg-purple-500 hover:bg-purple-600 w-full py-2 rounded-md text-neutral-100"
-              onClick={handleFollow}
+              className="mt-3 bg-red-500 hover:bg-red-600 w-full py-2 rounded-md text-white"
+              onClick={handleClearList}
             >
-              Follow on Instagram
+              Clear List
             </button>
           </div>
         </div>
