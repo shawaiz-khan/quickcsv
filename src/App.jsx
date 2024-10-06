@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function App() {
+export default function App() {
   const [item, setItem] = useState('');
   const [items, setItems] = useState([]);
 
@@ -95,5 +95,3 @@ function App() {
     </main>
   );
 }
-
-export default App;
