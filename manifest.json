@@ -1,0 +1,15 @@
+{
+    "manifest_version": 3,
+    "name": "QuickCSV",
+    "description": "A simple app to add items, manage them, and download as CSV.",
+    "version": "1.0",
+    "action": {
+        "default_popup": "index.html",
+        "default_title": "QuickCSV"
+    },
+    "icons": {
+        "48": "48.png",
+        "128": "128.png"
+    },
+    "permissions": []
+}
