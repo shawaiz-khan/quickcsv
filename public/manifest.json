@@ -1,11 +1,11 @@
 {
     "manifest_version": 3,
-    "name": "QuickCSV",
+    "name": "QuickCSV - Add, Manage and Download Tasks in CSV",
     "description": "A simple app to add items, manage them, and download as CSV.",
-    "version": "1.0",
+    "version": "1.0.1",
     "action": {
         "default_popup": "index.html",
-        "default_title": "QuickCSV"
+        "default_title": "QuickCSV - Add, Manage and Download Tasks in CSV"
     },
     "icons": {
         "48": "./48x48.png",
